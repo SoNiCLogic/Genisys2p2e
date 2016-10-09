@@ -3,7 +3,6 @@ worlds/*
 bin/*
 timings/*
 *.log
-*.phar
 server.properties
 /pocketmine.yml
 *.txt
