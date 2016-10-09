@@ -1,6 +1,5 @@
 players/*
 worlds/*
-plugins/*
 bin/*
 timings/*
 *.log
