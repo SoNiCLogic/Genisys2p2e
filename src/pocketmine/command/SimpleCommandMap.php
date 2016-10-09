@@ -79,6 +79,7 @@ use pocketmine\Player;
 use pocketmine\Server;
 use pocketmine\utils\MainLogger;
 use pocketmine\utils\TextFormat;
+use pocketmine\command\defaults\ReplyCommand;
 
 class SimpleCommandMap implements CommandMap{
 
@@ -154,10 +155,12 @@ class SimpleCommandMap implements CommandMap{
 		$this->register("pocketmine", new ReloadCommand("reload"), null, true);
 		$this->register("pocketmine", new XpCommand("xp"));
 		$this->register("pocketmine", new SetBlockCommand("setblock"));
+		$this->register("pocketmine", new StatusCommand("status"), null, true);
+		$this->register("pocketmine", new GarbageCollectorCommand("gc"), null, true);
+		
+		$this->register("pocketmine", new ReplyCommand("r"));
 
 		if($this->server->getProperty("debug.commands", false)){
-			$this->register("pocketmine", new StatusCommand("status"), null, true);
-			$this->register("pocketmine", new GarbageCollectorCommand("gc"), null, true);
 			$this->register("pocketmine", new DumpMemoryCommand("dumpmemory"), null, true);
 		}
 	}

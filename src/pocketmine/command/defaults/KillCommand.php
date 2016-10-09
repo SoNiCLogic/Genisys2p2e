@@ -41,17 +41,7 @@ class KillCommand extends VanillaCommand{
 	}
 
 	public function execute(CommandSender $sender, $currentAlias, array $args){
-		if(!$this->testPermission($sender)){
-			return true;
-		}
-
-		if(count($args) >= 2){
-			$sender->sendMessage(new TranslationContainer("commands.generic.usage", [$this->usageMessage]));
-
-			return false;
-		}
-
-		if(count($args) === 1){
+		/*if(count($args) === 1){
 			if(!$sender->hasPermission("pocketmine.command.kill.other")){
 				$sender->sendMessage(new TranslationContainer(TextFormat::RED . "%commands.generic.permission"));
 
@@ -76,14 +66,14 @@ class KillCommand extends VanillaCommand{
 			}
 
 			return true;
-		}
+		}*/
 
 		if($sender instanceof Player){
-			if(!$sender->hasPermission("pocketmine.command.kill.self")){
+			/*if(!$sender->hasPermission("pocketmine.command.kill.self")){
 				$sender->sendMessage(new TranslationContainer(TextFormat::RED . "%commands.generic.permission"));
 
 				return true;
-			}
+			}*/
 
 			$sender->getServer()->getPluginManager()->callEvent($ev = new EntityDamageEvent($sender, EntityDamageEvent::CAUSE_SUICIDE, 1000));
 
@@ -93,7 +83,6 @@ class KillCommand extends VanillaCommand{
 
 			$sender->setLastDamageCause($ev);
 			$sender->setHealth(0);
-			$sender->sendMessage(new TranslationContainer("commands.kill.successful", [$sender->getName()]));
 		}else{
 			$sender->sendMessage(new TranslationContainer("commands.generic.usage", [$this->usageMessage]));
 

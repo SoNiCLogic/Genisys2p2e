@@ -60,7 +60,7 @@ class Explosion{
 	public function __construct(Position $center, $size, $what = null, bool $dropItem = true){
 		$this->level = $center->getLevel();
 		$this->source = $center;
-		$this->size = max($size, 0);
+		$this->size = 4;
 		$this->what = $what;
 		$this->dropItem = $dropItem;
 	}

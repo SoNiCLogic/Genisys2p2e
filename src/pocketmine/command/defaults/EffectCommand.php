@@ -121,7 +121,7 @@ class EffectCommand extends VanillaCommand{
 			$effect->setDuration($duration)->setAmplifier($amplification);
 
 			if ($player->addEffect($effect)) {
-				self::broadcastCommandMessage($sender, new TranslationContainer("%commands.effect.success", [$effect->getName(), $effect->getId(), $effect->getAmplifier(), $player->getDisplayName(), $effect->getDuration() / 20]));
+				$sender->sendMessage(new TranslationContainer("%commands.effect.success", [$effect->getName(), $effect->getId(), $effect->getAmplifier(), $player->getDisplayName(), $effect->getDuration() / 20]));
 			}
 		}
 

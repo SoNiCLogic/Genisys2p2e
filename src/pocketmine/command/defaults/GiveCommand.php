@@ -93,11 +93,12 @@ class GiveCommand extends VanillaCommand{
 			return true;
 		}
 
-		Command::broadcastCommandMessage($sender, new TranslationContainer("%commands.give.success", [
+		/*Command::broadcastCommandMessage($sender, new TranslationContainer("%commands.give.success", [
 			$item->getName() . " (" . $item->getId() . ":" . $item->getDamage() . ")",
 			(string) $item->getCount(),
 			$player->getName()
-		]));
+		]));*/
+		$sender->sendMessage("Gave " . $item->getName() . " [" . $item->getId() . ":" . $item->getDamage() . "] to " . $player->getName());
 		return true;
 	}
 }

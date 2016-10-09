@@ -52,11 +52,12 @@ class OpCommand extends VanillaCommand{
 		$name = array_shift($args);
 
 		$player = $sender->getServer()->getOfflinePlayer($name);
-		Command::broadcastCommandMessage($sender, new TranslationContainer("commands.op.success", [$player->getName()]));
+		//Command::broadcastCommandMessage($sender, new TranslationContainer("commands.op.success", [$player->getName()]));
 		if($player instanceof Player){
 			$player->sendMessage(TextFormat::GRAY . "You are now op!");
 		}
 		$player->setOp(true);
+		$sender->sendMessage($player->getName() . " is now op!");
 		return true;
 	}
 }

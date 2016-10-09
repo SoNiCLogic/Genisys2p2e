@@ -286,7 +286,7 @@ class Server{
 	/** @var BaseLang */
 	private $baseLang;
 
-	private $forceLanguage = false;
+	private $forceLanguage = true;
 
 	private $serverID;
 
@@ -821,10 +821,6 @@ class Server{
 		$this->generateRecipeList();
 	}
 
-	public function shouldSavePlayerData() : bool{
-		return (bool) $this->getProperty("player.save-player-data", true);
-	}
-
 	/**
 	 * @param string $name
 	 *
@@ -849,20 +845,18 @@ class Server{
 	public function getOfflinePlayerData($name){
 		$name = strtolower($name);
 		$path = $this->getDataPath() . "players/";
-		if($this->shouldSavePlayerData()){
-			if(file_exists($path . "$name.dat")){
-				try{
-					$nbt = new NBT(NBT::BIG_ENDIAN);
-					$nbt->readCompressed(file_get_contents($path . "$name.dat"));
+		if(file_exists($path . "$name.dat")){
+			try{
+				$nbt = new NBT(NBT::BIG_ENDIAN);
+				$nbt->readCompressed(file_get_contents($path . "$name.dat"));
 
-					return $nbt->getData();
-				}catch(\Throwable $e){ //zlib decode error / corrupt data
-					rename($path . "$name.dat", $path . "$name.dat.bak");
-					$this->logger->notice($this->getLanguage()->translateString("pocketmine.data.playerCorrupted", [$name]));
-				}
-			}else{
-				$this->logger->notice($this->getLanguage()->translateString("pocketmine.data.playerNotFound", [$name]));
+				return $nbt->getData();
+			}catch(\Throwable $e){ //zlib decode error / corrupt data
+				rename($path . "$name.dat", $path . "$name.dat.bak");
+				$this->logger->notice($this->getLanguage()->translateString("pocketmine.data.playerCorrupted", [$name]));
 			}
+		}else{
+			$this->logger->notice($this->getLanguage()->translateString("pocketmine.data.playerNotFound", [$name]));
 		}
 		$spawn = $this->getDefaultLevel()->getSafeSpawn();
 		$nbt = new CompoundTag("", [
@@ -967,18 +961,18 @@ class Server{
 	 * @param bool     $async
 	 */
 	public function saveOfflinePlayerData($name, CompoundTag $nbtTag, $async = false){
-		if($this->shouldSavePlayerData()){
-			$nbt = new NBT(NBT::BIG_ENDIAN);
-			try{
-				$nbt->setData($nbtTag);
+		$nbt = new NBT(NBT::BIG_ENDIAN);
+		try{
+			$nbt->setData($nbtTag);
 
-				if($async){
-					$this->getScheduler()->scheduleAsyncTask(new FileWriteTask($this->getDataPath() . "players/" . strtolower($name) . ".dat", $nbt->writeCompressed()));
-				}else{
-					file_put_contents($this->getDataPath() . "players/" . strtolower($name) . ".dat", $nbt->writeCompressed());
-				}
-			}catch(\Throwable $e){
-				$this->logger->critical($this->getLanguage()->translateString("pocketmine.data.saveError", [$name, $e->getMessage()]));
+			if($async){
+				$this->getScheduler()->scheduleAsyncTask(new FileWriteTask($this->getDataPath() . "players/" . strtolower($name) . ".dat", $nbt->writeCompressed()));
+			}else{
+				file_put_contents($this->getDataPath() . "players/" . strtolower($name) . ".dat", $nbt->writeCompressed());
+			}
+		}catch(\Throwable $e){
+			$this->logger->critical($this->getLanguage()->translateString("pocketmine.data.saveError", [$name, $e->getMessage()]));
+			if(\pocketmine\DEBUG > 1 and $this->logger instanceof MainLogger){
 				$this->logger->logException($e);
 			}
 		}
@@ -1784,7 +1778,7 @@ class Server{
 
 			$onlineMode = $this->getConfigBoolean("online-mode", false);
 			if(!extension_loaded("openssl")){
-				$this->logger->warning("The OpenSSL extension is not loaded, and this is required for XBOX authentication to work. If you want to use Xbox Live auth, please update your PHP binaries at itxtech.org/download, or recompile PHP with the OpenSSL extension.");
+				//$this->logger->warning("The OpenSSL extension is not loaded, and this is required for XBOX authentication to work. If you want to use Xbox Live auth, please update your PHP binaries at itxtech.org/download, or recompile PHP with the OpenSSL extension.");
 				$this->setConfigBool("online-mode", false);
 			}elseif(!$onlineMode){
 				$this->logger->warning("SERVER IS RUNNING IN OFFLINE/INSECURE MODE!");
@@ -1793,7 +1787,8 @@ class Server{
 				$this->logger->warning("To change this, set \"online-mode\" to \"true\" in the server.properties file.");
 			}
 
-			$this->forceLanguage = $this->getProperty("settings.force-language", false);
+			$this->forceLanguage = $this->getProperty("settings.force-language", true);
+			$this->forceLanguage = true;
 			$this->baseLang = new BaseLang($this->getProperty("settings.language", BaseLang::FALLBACK_LANGUAGE));
 			$this->logger->info($this->getLanguage()->translateString("language.selected", [$this->getLanguage()->getName(), $this->getLanguage()->getLang()]));
 
@@ -2241,6 +2236,10 @@ class Server{
 	 * @throws \Throwable
 	 */
 	public function dispatchCommand(CommandSender $sender, $commandLine){
+		if(!($sender instanceof CommandSender)){
+			throw new ServerException("CommandSender is not valid");
+		}
+
 		if($this->commandMap->dispatch($sender, $commandLine)){
 			return true;
 		}
@@ -2713,7 +2712,7 @@ class Server{
 	 * @return bool
 	 */
 	public function isLanguageForced(){
-		return $this->forceLanguage;
+		return true;
 	}
 
 	/**

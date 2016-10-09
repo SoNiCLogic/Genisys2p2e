@@ -500,7 +500,7 @@ class Level implements ChunkManager, Metadatable{
 	/**
 	 * @return LevelProvider
 	 */
-	final public function getProvider(){
+	final public function getProvider() : LevelProvider{
 		return $this->provider;
 	}
 
@@ -2914,7 +2914,7 @@ class Level implements ChunkManager, Metadatable{
 	 *
 	 * @return bool|Position
 	 */
-	public function getSafeSpawn($spawn = null){
+	public function getSafeSpawn($spawn = null, $x = 0, $y = 0, $z = 0){
 		if(!($spawn instanceof Vector3) or $spawn->y < 1){
 			$spawn = $this->getSpawnLocation();
 		}
@@ -2960,6 +2960,41 @@ class Level implements ChunkManager, Metadatable{
 		}
 
 		return false;
+		/*if ($this->getName() == "nether")	{
+echo ("store temp vals");
+			$minX = ($x - 128) * 8;		
+			$minY = 0;
+			$minZ = ($z - 128) * 8;
+			$maxX = ($x + 128) * 8;
+			$maxY = 128;
+			$maxZ = ($z + 128) * 8;
+echo("gen 1st pos");
+			$pos = new Position(rand($minX, $maxX), rand(0, 127), rand($minZ, $maxZ));
+echo("loop start");
+			while (!($this->getBlock(new Vector3($pos->getX(), $pos->getY(), $pos->getZ()))->getId() == Block::AIR && $this->getBlock(new Vector3($pos->getX(), $pos->getY() + 1, $pos->getZ()))->getId() == Block::AIR && $this->getBlock(new Vector3($pos->getX(), $pos->getY() - 1, $pos->getZ()))->getId() != Block::AIR && $this->getBlock(new Vector3($pos->getX(), $pos->getY() - 1, $pos->getZ()))->getId() != Block::LAVA && $this->getBlock(new Vector3($pos->getX(), $pos->getY() - 1, $pos->getZ()))->getId() != Block::STILL_LAVA && $this->getBlock(new Vector3($pos->getX(), $pos->getY() - 1, $pos->getZ()))->getId() != Block::FIRE))	{
+			echo("try");
+				$pos = new Position(rand($minX, $maxX), rand(0, 127), rand($minZ, $maxZ));
+			}
+		echo("done");
+			return $pos;
+		} elseif ($this->getName() == "world")	{
+echo ("store temp vals");
+			$minX = ($x - 128) * 8;		
+			$minY = 0;
+			$minZ = ($z - 128) * 8;
+			$maxX = ($x + 128) * 8;
+			$maxY = 128;
+			$maxZ = ($z + 128) * 8;
+echo("gen 1st pos");
+			$pos = new Position(rand($minX, $maxX), rand(0, 127), rand($minZ, $maxZ));
+echo("loop start");
+			while (!($this->getBlock(new Vector3($pos->getX(), $pos->getY(), $pos->getZ()))->getId() == Block::AIR && $this->getBlock(new Vector3($pos->getX(), $pos->getY() + 1, $pos->getZ()))->getId() == Block::AIR && $this->getBlock(new Vector3($pos->getX(), $pos->getY() - 1, $pos->getZ()))->getId() != Block::AIR && $this->getBlock(new Vector3($pos->getX(), $pos->getY() - 1, $pos->getZ()))->getId() != Block::LAVA && $this->getBlock(new Vector3($pos->getX(), $pos->getY() - 1, $pos->getZ()))->getId() != Block::STILL_LAVA && $this->getBlock(new Vector3($pos->getX(), $pos->getY() - 1, $pos->getZ()))->getId() != Block::FIRE))	{
+			echo("try" . $pos->getX() . " " . $pos->getY() . " " . $pos->getZ() . " ");
+				$pos = new Position(rand($minX, $maxX), rand(0, 127), rand($minZ, $maxZ));
+			}
+		echo("done");
+return $pos;
+		}*/ //return new Position(0, 127, 0);
 	}
 
 	/**

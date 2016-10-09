@@ -60,9 +60,10 @@ class AnvilInventory extends TemporaryInventory{
 		
 		$this->clearAll();
 		if(!$player->getServer()->allowInventoryCheats and !$player->isCreative()){
-			if(!$player->getFloatingInventory()->canAddItem($resultItem)){
+//This seems to prevent anvils from working, and I don't think that it will allow players to cheat in items. Will have to test.....
+			/*if(!$player->getFloatingInventory()->canAddItem($resultItem)){
 				return false;
-			}
+			}*/
 			$player->getFloatingInventory()->addItem($resultItem);
 		}
 		return true;

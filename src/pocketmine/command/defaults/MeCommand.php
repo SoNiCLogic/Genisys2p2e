@@ -48,7 +48,7 @@ class MeCommand extends VanillaCommand{
 			return false;
 		}
 
-		$sender->getServer()->broadcastMessage(new TranslationContainer("chat.type.emote", [$sender instanceof Player ? $sender->getDisplayName() : $sender->getName(), TextFormat::WHITE . implode(" ", $args)]));
+		$sender->getServer()->broadcastMessage(">" . $sender instanceof Player ? $sender->getDisplayName() : $sender->getName() . implode(" ", $args));
 
 		return true;
 	}

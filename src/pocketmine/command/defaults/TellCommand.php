@@ -53,14 +53,10 @@ class TellCommand extends VanillaCommand{
 
 		$player = $sender->getServer()->getPlayer($name);
 
-		if($player === $sender){
-			$sender->sendMessage(new TranslationContainer(TextFormat::RED . "%commands.message.sameTarget"));
-			return true;
-		}
-
 		if($player instanceof Player){
-			$sender->sendMessage("[".$sender->getName()." -> " . $player->getDisplayName() . "] " . implode(" ", $args));
-			$player->sendMessage("[" . ($sender instanceof Player ? $sender->getDisplayName() : $sender->getName()) . " -> ".$player->getName()."] " . implode(" ", $args));
+			$sender->sendMessage(TextFormat::LIGHT_PURPLE . "[".$sender->getName()." → " . $player->getDisplayName() . "] " . implode(" ", $args));
+			$player->sendMessage(TextFormat::LIGHT_PURPLE . "[" . ($sender instanceof Player ? $sender->getDisplayName() : $sender->getName()) . " → ".$player->getName()."] " . implode(" ", $args));
+			$player->setLastMessage($sender);
 		}else{
 			$sender->sendMessage(new TranslationContainer("commands.generic.player.notFound"));
 		}

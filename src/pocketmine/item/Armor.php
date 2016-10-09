@@ -76,6 +76,9 @@ abstract class Armor extends Item{
 	}
 
 	public function isUnbreakable(){
+		if (strpos($this->getCustomName(), "Immortal") !== false) {
+		    return true;
+		}
 		$tag = $this->getNamedTagEntry("Unbreakable");
 		return $tag !== null and $tag->getValue() > 0;
 	}
