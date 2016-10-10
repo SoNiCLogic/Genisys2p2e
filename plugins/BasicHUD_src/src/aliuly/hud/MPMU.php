@@ -7,7 +7,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\Player;
 use pocketmine\command\PluginCommand;
 
-use aliuly\hud\common\mc;
+use aliuly\hud\mc;
 
 /**
  * My PocketMine Utils class
