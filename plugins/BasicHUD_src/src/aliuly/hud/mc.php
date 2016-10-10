@@ -1,6 +1,5 @@
 <?php
-namespace aliuly\hud\common;
-
+namespace aliuly\hud;
 /**
  * Simple translation class in the style of **gettext**.
  *

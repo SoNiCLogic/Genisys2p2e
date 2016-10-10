@@ -1,5 +1,5 @@
 <?php
-namespace aliuly\hud\common;
+namespace aliuly\hud;
 use pocketmine\item\Item;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\MainLogger;
