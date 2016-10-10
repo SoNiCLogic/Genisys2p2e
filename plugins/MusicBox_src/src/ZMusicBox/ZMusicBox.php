@@ -147,11 +147,11 @@ class ZMusicBox extends PluginBase implements Listener{
 		foreach($this->getServer()->getOnlinePlayers() as $p){
 			$noteblock = $this->getNearbyNoteBlock($p->x,$p->y,$p->z,$p->getLevel());
 			if(!empty($noteblock)){
-				if($this->song->name != ""){
+				/*if($this->song->name != ""){
 					$p->sendPopup("§b|->§6Now Playing: §a".$this->song->name."§b<-|");
 				}else{	
 					$p->sendPopup("§b|->§6Now Playing: §a".$this->name."§b<-|");
-				}
+				}*/
 				$i = 0;
 				while ($i <= 3){
 					$i ++;
