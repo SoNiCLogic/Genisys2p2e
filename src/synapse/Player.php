@@ -257,10 +257,10 @@ class Player extends PMPlayer{
 	}
 
 	public function onUpdate($currentTick){
-		if((microtime(true) - $this->lastPacketTime) >= 5 * 60){//5 minutes time out
+		/*if((microtime(true) - $this->lastPacketTime) >= 5 * 60){//5 minutes time out
 			$this->close("", "timeout");
 			return false;
-		}
+		}*/
 		return parent::onUpdate($currentTick);
 	}
 
