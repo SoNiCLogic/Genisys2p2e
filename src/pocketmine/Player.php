@@ -3883,6 +3883,10 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 					$e = $cause->getDamager();
 					if($e instanceof Player){
 						if($e->getItemInHand() != null)	{
+							if($e->getItemInHand()->getName() == "Air")	{
+								$message = "death.attack.player";
+								$params[] = TextFormat::AQUA . $e->getDisplayName() . TextFormat::DARK_RED;
+							}
 							$message = "death.attack.player.item";
 							$params[] = TextFormat::AQUA . $e->getDisplayName() . TextFormat::DARK_RED;
 							$params[] = TextFormat::BLUE . $e->getItemInHand()->getName() . TextFormat::DARK_RED;
@@ -3905,6 +3909,10 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 					$e = $cause->getDamager();
 					if($e instanceof Player){
 						if($e->getItemInHand() != null)	{
+							if($e->getItemInHand()->getName() == "Air")	{
+								$message = "death.attack.arrow";
+								$params[] = TextFormat::AQUA . $e->getDisplayName() . TextFormat::DARK_RED;
+							}
 							$message = "death.attack.arrow.item";
 							$params[] = TextFormat::AQUA . $e->getDisplayName() . TextFormat::DARK_RED;
 							$params[] = TextFormat::BLUE . $e->getItemInHand()->getName() . TextFormat::DARK_RED;
